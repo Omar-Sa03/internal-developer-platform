@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: platform-demo-api
-  tag: local
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/Omar-Sa03/internal-developer-platform
+  tag: dev
+  pullPolicy: Always
 
 service:
   type: ClusterIP
