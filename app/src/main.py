@@ -6,6 +6,7 @@ app = FastAPI(title="Platform API")
 def read_root():
     return {
         "service": "Platform API is running",
+        "version": "2.0",
         "status": "Healthy"
         }
 
