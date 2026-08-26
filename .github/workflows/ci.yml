@@ -47,20 +47,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set lower case repository name
-        run: |
-          echo "REPO_LC=${REPO,,}" >> ${GITHUB_ENV}
-        env:
-          REPO: '${{ github.repository }}'
-
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
           context: ./app
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}:${{ github.sha }}
-            ghcr.io/${{ env.REPO_LC }}:dev
+            ghcr.io/${{ github.actor }}/internal-developer-platform:${{ github.sha }}
+            ghcr.io/${{ github.actor }}/internal-developer-platform:dev
 
-        
-    
+      - name: Update image tag
+        run: |
+          yq e '.image.tag = "${{ github.sha }}"' -i helm/fastapi-service/values.yaml
+      
+      - name: Commit updated tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add helm/fastapi-service/values.yaml
+          git commit -m "chore: update image tag to ${{ github.sha }}" | exit 0
+          git push
