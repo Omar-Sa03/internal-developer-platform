@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-fastapi
+  name: {{ .Release.Name }}
   labels:
-    app: {{ .Release.Name }}-fastapi
+    app: {{ .Release.Name }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -11,4 +11,4 @@ spec:
       targetPort: 8000
       protocol: TCP
   selector:
-    app: {{ .Release.Name }}-fastapi
+    app: {{ .Release.Name }}
