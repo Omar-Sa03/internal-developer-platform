@@ -2,38 +2,79 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-    
+    branches:
+      - main
+
 permissions:
   contents: write
   packages: write
 
 jobs:
+
   test:
+    name: Test
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup python
+      - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: 3.12
+          python-version: "3.12"
 
       - name: Install dependencies
         working-directory: app
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt pytest httpx2
-          
+          pip install -r requirements.txt
+          pip install pytest httpx
+
       - name: Run tests
         working-directory: app
-        run: pytest
+        run: pytest -v
+
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Ruff
+        uses: astral-sh/ruff-action@v4.1.0
+        with:
+          src: "./app"
+
+
+  filesystem-scan:
+    name: Filesystem Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
 
   build-and-publish:
-    needs: test
+    needs: 
+      - test
+      - lint
+      - filesystem-scan
+                
     runs-on: ubuntu-latest
     
     steps:
