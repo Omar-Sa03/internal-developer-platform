@@ -47,14 +47,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.actor }}'
+
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
           context: ./app
           push: true
           tags: |
-            ghcr.io/${{ github.actor }}/internal-developer-platform:${{ github.sha }}
-            ghcr.io/${{ github.actor }}/internal-developer-platform:dev
+            ghcr.io/${{ env.OWNER_LC }}/internal-developer-platform:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/internal-developer-platform:dev
 
       - name: Update image tag
         run: |
