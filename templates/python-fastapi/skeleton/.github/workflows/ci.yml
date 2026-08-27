@@ -125,6 +125,7 @@ jobs:
           tags: |
             ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}:${{ github.sha }}
             ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}:dev
+            ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}:latest
 
       - name: Update image tag
         run: |
