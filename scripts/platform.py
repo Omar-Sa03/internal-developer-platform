@@ -17,6 +17,13 @@ app = typer.Typer(
 )
 
 
+@app.callback()
+def main():
+    """Internal Developer Platform CLI."""
+    pass
+
+
+
 @app.command()
 def create_service(
     service_name: str = typer.Argument(...),
