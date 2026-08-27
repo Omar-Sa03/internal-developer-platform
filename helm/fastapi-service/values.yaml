@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: ghcr.io/omar-sa03/internal-developer-platform
-  tag: "8fb6f0fc8f6cfb2527310ca23c5cdacd3599655e"
+  tag: "46ed106db59c726bb8c46fd4226f589a973145b9"
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
