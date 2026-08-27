@@ -1,0 +1,31 @@
+name: python-fastapi
+
+description: Generate a production-ready FastAPI service
+
+inputs:
+  service_name:
+    type: string
+    description: Name of the service
+    required: true
+    example: payments-api
+
+  team:
+    type: string
+    description: Team responsible for the service
+    required: true
+    example: team-payments
+
+  environment:
+    type: string
+    description: Deployment environment
+    required: true
+    allowedValues:
+      - development
+      - staging
+      - production
+
+  github_owner:
+    type: string
+    description: GitHub username or organization
+    required: true
+    example: omar-sa03
