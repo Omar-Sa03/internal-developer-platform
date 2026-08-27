@@ -10,9 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src ./src
 
-RUN useradd --create-home appuser
+RUN useradd --create-home --uid 1000 appuser
 
-USER appuser
+USER 1000
 
 EXPOSE 8000
 
