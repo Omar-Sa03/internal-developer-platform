@@ -9,7 +9,7 @@ TEMPLATE_DIR = Path("templates/python-fastapi/skeleton")
 OUTPUT_BASE = Path("generated")
 
 
-def generate_service(service_name: str, team: str, environment: str, github_owner: str) -> None:
+def generate_service(service_name: str, team: str, environment: str, github_owner: str) -> Path:
     output_dir = OUTPUT_BASE / service_name
 
     if output_dir.exists():
@@ -54,6 +54,8 @@ def generate_service(service_name: str, team: str, environment: str, github_owne
             rendered,
             encoding="utf-8",
         )
+
+    return output_dir
 
 
 if __name__ == "__main__":
