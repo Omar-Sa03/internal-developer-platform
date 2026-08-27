@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import typer
 
+from scripts.argocd import apply_application
+from scripts.render_argocd import render_application
+from pathlib import Path
+
 from scripts.generate_service import generate_service
 from scripts.github import create_repository
 from scripts.git import (
@@ -74,6 +78,24 @@ def create_service(
     typer.echo("")
     typer.echo(
         f"Service '{service_name}' created successfully."
+    )
+
+    typer.echo("5. Registering application with Argo CD...")
+
+    argocd_manifest = render_application(
+        service_name=service_name,
+        github_owner=github_owner,
+        output=(
+            Path("generated")
+            / ".argocd"
+            / f"{service_name}.yaml"
+        ),
+    )
+
+    apply_application(argocd_manifest)
+
+    typer.echo(
+        f"   Argo CD application '{service_name}' created."
     )
 
 
