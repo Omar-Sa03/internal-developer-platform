@@ -1,7 +1,8 @@
+# pyrefly: ignore [missing-import]
 from fastapi.testclient import TestClient
 
+# pyrefly: ignore [missing-import]
 from src.main import app
-
 
 client = TestClient(app)
 
